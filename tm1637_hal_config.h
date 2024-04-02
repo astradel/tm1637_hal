@@ -1,5 +1,5 @@
-#ifndef __TM1637_HAL_CONFIG__
-#define __TM1637_HAL_CONFIG__
+#ifndef TM1637_HAL_CONFIG_H
+#define TM1637_HAL_CONFIG_H
 
 #define USE_STM32F1
-#endif //__TM1637_HAL_CONFIG__
+#endif //TM1637_HAL_CONFIG_H

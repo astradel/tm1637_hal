@@ -1,5 +1,5 @@
-#ifndef __TM1637_HAL__
-#define __TM1637_HAL__
+#ifndef TM1637_HAL_H
+#define TM1637_HAL_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,40 +47,9 @@ void tm1637_showNumberHexEx(uint16_t num, uint8_t dots , bool leading_zero , uin
 void tm1637_showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots , bool leading_zero , uint8_t length, uint8_t pos);
 uint8_t tm1637_encodeDigit(uint8_t digit);
 
-/*class TM1637Display{
-
-public:
-  TM1637Display(unsigned int bitDelay = DEFAULT_BIT_DELAY);
-  void setBrightness(uint8_t brightness, bool on = true);
-  void setSegments(const uint8_t segments[], uint8_t length = 4, uint8_t pos = 0);
-  void clear();
-  void showNumberDec(int num, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
-  void showNumberDecEx(int num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
-  void showNumberHexEx(uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
-  uint8_t encodeDigit(uint8_t digit);
-
-protected:
-   void bitDelay();
-   void start();
-   void stop();
-   bool writeByte(uint8_t b);
-   void showDots(uint8_t dots, uint8_t* digits);
-   void showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
-   void setGPIODIOInput(void);
-   void setGPIODIOOutput(void);
-   void setGPIOClkInput(void);
-   void setGPIOClkOutput(void);
-   inline void mDelayMicroseconds(uint32_t us);
-
-private:
-  uint8_t m_brightness;
-  unsigned int m_bitDelay;
-  GPIO_InitTypeDef m_gpioDIO;	
-  GPIO_InitTypeDef m_gpioClk;	
-};*/
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __TM1637_HAL__
+#endif // TM1637_HAL_H
