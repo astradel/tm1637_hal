@@ -15,7 +15,7 @@ static void __setGPIODIOInput(void);
 static void __setGPIODIOOutput(void);
 static void __setGPIOClkInput(void);
 static void __setGPIOClkOutput(void);
-static void __mDelayMicroseconds(uint32_t us);
+static void __DelayMicroseconds(uint32_t us);
 
 static uint8_t __m_brightness;
 static unsigned int __m_bitDelay;
@@ -165,7 +165,7 @@ void tm1637_showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bool leadi
 
 void __bitDelay()
 {
-	__mDelayMicroseconds(__m_bitDelay);
+	__DelayMicroseconds(__m_bitDelay);
 }
 
 void __showDots(uint8_t dots, uint8_t* digits)
@@ -263,7 +263,7 @@ void __setGPIOClkOutput(void) {
 	HAL_GPIO_Init(GPIOB, &m_gpioClk);  
 }
 
-static void __mDelayMicroseconds(uint32_t us)
+static void __DelayMicroseconds(uint32_t us)
 {
   __IO uint32_t currentTicks = SysTick->VAL;
   const uint32_t tickPerMs = SysTick->LOAD + 1;
