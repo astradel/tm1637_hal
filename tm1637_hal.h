@@ -13,7 +13,7 @@ extern "C" {
 #include "stm32f1xx_hal.h"
 #endif
 
-#define ENABLE_GPIOS  __HAL_RCC_GPIOB_CLK_ENABLE();
+
 #define SET_DIO_INPUT __setGPIODIOInput();
 #define SET_DIO_OUTPUT __setGPIODIOOutput();
 #define SET_CLK_INPUT __setGPIOClkInput();
@@ -37,7 +37,7 @@ extern "C" {
 #define __TM1637_DEFAULT_LEADING_ZERO 0
 #define __TM1637_DEFAULT_DOTS 0
 
-void tm1637_init(unsigned int bitDelay);
+void tm1637_init(void);
 void tm1637_setBrightness(uint8_t brightness, bool on);
 void tm1637_setSegments(const uint8_t segments[], uint8_t length, uint8_t pos);
 void tm1637_clear(void);

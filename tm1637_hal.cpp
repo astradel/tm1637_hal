@@ -18,7 +18,6 @@ static void __setGPIOClkOutput(void);
 static void __DelayMicroseconds(uint32_t us);
 
 static uint8_t __m_brightness;
-static unsigned int __m_bitDelay;
 static GPIO_InitTypeDef m_gpioDIO;
 static GPIO_InitTypeDef m_gpioClk;
 
@@ -58,9 +57,9 @@ static const uint8_t digitToSegment[] = {
 
 static const uint8_t minusSegments = 0b01000000;
 
-void tm1637_init(unsigned int bitDelay) {
-  __m_bitDelay = bitDelay;
-  ENABLE_GPIOS;
+void tm1637_init(void) {
+  TM1637_ENABLE_GPIO_CLK
+  TM1637_ENABLE_GPIO_DIO
 }
 
 void tm1637_setBrightness(uint8_t brightness, bool on) {
@@ -165,7 +164,7 @@ void tm1637_showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bool leadi
 
 void __bitDelay()
 {
-	__DelayMicroseconds(__m_bitDelay);
+	__DelayMicroseconds(TM1637_DELAY_US);
 }
 
 void __showDots(uint8_t dots, uint8_t* digits)
@@ -232,35 +231,35 @@ bool __writeByte(uint8_t b)
 }
 
 void __setGPIODIOInput(void) {
-	m_gpioDIO.Pin = GPIO_PIN_13; 
+	m_gpioDIO.Pin = TM1637_DIO_PIN; 
 	m_gpioDIO.Mode = GPIO_MODE_INPUT;
 	m_gpioDIO.Pull = GPIO_NOPULL;
 	m_gpioDIO.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOB, &m_gpioDIO);  
+	HAL_GPIO_Init(TM1637_DIO_PORT, &m_gpioDIO);  
 }
 
 void __setGPIODIOOutput(void) {
-	m_gpioDIO.Pin = GPIO_PIN_13;
+	m_gpioDIO.Pin = TM1637_DIO_PIN; 
 	m_gpioDIO.Mode = GPIO_MODE_OUTPUT_PP;
 	m_gpioDIO.Pull = GPIO_NOPULL;
 	m_gpioDIO.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOB, &m_gpioDIO);  
+	HAL_GPIO_Init(TM1637_DIO_PORT, &m_gpioDIO);  
 }
 
 void __setGPIOClkInput(void) {
-	m_gpioClk.Pin = GPIO_PIN_12; 
+	m_gpioClk.Pin = TM1637_CLK_PIN; 
 	m_gpioClk.Mode = GPIO_MODE_INPUT;
 	m_gpioClk.Pull = GPIO_PULLDOWN;
 	m_gpioClk.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOB, &m_gpioClk);  
+	HAL_GPIO_Init(TM1637_CLK_PORT, &m_gpioClk);  
 }
 
 void __setGPIOClkOutput(void) {
-	m_gpioClk.Pin = GPIO_PIN_12; 
+	m_gpioClk.Pin = TM1637_CLK_PIN; 
 	m_gpioClk.Mode = GPIO_MODE_OUTPUT_PP;
 	m_gpioClk.Pull = GPIO_PULLDOWN;
 	m_gpioClk.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOB, &m_gpioClk);  
+	HAL_GPIO_Init(TM1637_CLK_PORT, &m_gpioClk);  
 }
 
 static void __DelayMicroseconds(uint32_t us)
