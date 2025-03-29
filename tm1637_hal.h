@@ -18,7 +18,7 @@ extern "C" {
 #define SET_DIO_OUTPUT __setGPIODIOOutput();
 #define SET_CLK_INPUT __setGPIOClkInput();
 #define SET_CLK_OUTPUT __setGPIOClkOutput();
-#define READ_ACK HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_13);
+#define READ_ACK HAL_GPIO_ReadPin(TM1637_DIO_PORT,TM1637_DIO_PIN);
 
 /* Functions useful for handling waiting times us*/
 #define DWT_INIT CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
