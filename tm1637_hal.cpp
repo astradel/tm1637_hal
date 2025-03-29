@@ -18,8 +18,7 @@ static void __setGPIOClkOutput(void);
 static void __DelayMicroseconds(uint32_t us);
 
 static uint8_t __m_brightness;
-static GPIO_InitTypeDef m_gpioDIO;
-static GPIO_InitTypeDef m_gpioClk;
+static GPIO_InitTypeDef m_gpioStruct;
 
 #define TM1637_I2C_COMM1    0x40
 #define TM1637_I2C_COMM2    0xC0
@@ -58,6 +57,7 @@ static const uint8_t digitToSegment[] = {
 static const uint8_t minusSegments = 0b01000000;
 
 void tm1637_init(void) {
+  DWT_INIT
   TM1637_ENABLE_GPIO_CLK
   TM1637_ENABLE_GPIO_DIO
 }
@@ -164,7 +164,7 @@ void tm1637_showNumberBaseEx(int8_t base, uint16_t num, uint8_t dots, bool leadi
 
 void __bitDelay()
 {
-	__DelayMicroseconds(TM1637_DELAY_US);
+	DELAY_US(TM1637_DELAY_US)
 }
 
 void __showDots(uint8_t dots, uint8_t* digits)
@@ -231,48 +231,37 @@ bool __writeByte(uint8_t b)
 }
 
 void __setGPIODIOInput(void) {
-	m_gpioDIO.Pin = TM1637_DIO_PIN; 
-	m_gpioDIO.Mode = GPIO_MODE_INPUT;
-	m_gpioDIO.Pull = GPIO_NOPULL;
-	m_gpioDIO.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(TM1637_DIO_PORT, &m_gpioDIO);  
+  m_gpioStruct={0};
+	m_gpioStruct.Pin = TM1637_DIO_PIN; 
+	m_gpioStruct.Mode = GPIO_MODE_INPUT;
+	m_gpioStruct.Pull = GPIO_NOPULL;
+	m_gpioStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(TM1637_DIO_PORT, &m_gpioStruct);  
 }
 
 void __setGPIODIOOutput(void) {
-	m_gpioDIO.Pin = TM1637_DIO_PIN; 
-	m_gpioDIO.Mode = GPIO_MODE_OUTPUT_PP;
-	m_gpioDIO.Pull = GPIO_NOPULL;
-	m_gpioDIO.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(TM1637_DIO_PORT, &m_gpioDIO);  
+  m_gpioStruct={0};  
+	m_gpioStruct.Pin = TM1637_DIO_PIN; 
+	m_gpioStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	m_gpioStruct.Pull = GPIO_NOPULL;
+	m_gpioStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(TM1637_DIO_PORT, &m_gpioStruct);  
 }
 
 void __setGPIOClkInput(void) {
-	m_gpioClk.Pin = TM1637_CLK_PIN; 
-	m_gpioClk.Mode = GPIO_MODE_INPUT;
-	m_gpioClk.Pull = GPIO_PULLDOWN;
-	m_gpioClk.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(TM1637_CLK_PORT, &m_gpioClk);  
+  m_gpioStruct={0};  
+	m_gpioStruct.Pin = TM1637_CLK_PIN; 
+	m_gpioStruct.Mode = GPIO_MODE_INPUT;
+	m_gpioStruct.Pull = GPIO_PULLDOWN;
+	m_gpioStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(TM1637_CLK_PORT, &m_gpioStruct);  
 }
 
 void __setGPIOClkOutput(void) {
-	m_gpioClk.Pin = TM1637_CLK_PIN; 
-	m_gpioClk.Mode = GPIO_MODE_OUTPUT_PP;
-	m_gpioClk.Pull = GPIO_PULLDOWN;
-	m_gpioClk.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(TM1637_CLK_PORT, &m_gpioClk);  
-}
-
-static void __DelayMicroseconds(uint32_t us)
-{
-  __IO uint32_t currentTicks = SysTick->VAL;
-  const uint32_t tickPerMs = SysTick->LOAD + 1;
-  const uint32_t nbTicks = ((us - ((us > 0) ? 1 : 0)) * tickPerMs) / 1000;
-  uint32_t elapsedTicks = 0;
-  __IO uint32_t oldTicks = currentTicks;
-  do {
-    currentTicks = SysTick->VAL;
-    elapsedTicks += (oldTicks < currentTicks) ? tickPerMs + oldTicks - currentTicks :
-                    oldTicks - currentTicks;
-    oldTicks = currentTicks;
-  } while (nbTicks > elapsedTicks);
+  m_gpioStruct={0};
+	m_gpioStruct.Pin = TM1637_CLK_PIN; 
+	m_gpioStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	m_gpioStruct.Pull = GPIO_PULLDOWN;
+	m_gpioStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(TM1637_CLK_PORT, &m_gpioStruct);  
 }

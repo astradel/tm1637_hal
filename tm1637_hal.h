@@ -20,6 +20,10 @@ extern "C" {
 #define SET_CLK_OUTPUT __setGPIOClkOutput();
 #define READ_ACK HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_13);
 
+/* Functions useful for handling waiting times us*/
+#define DWT_INIT CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+#define DELAY_US(US) uint32_t us_count_tic =  US * (SystemCoreClock / 1000000U);DWT->CYCCNT = 0U;while(DWT->CYCCNT < us_count_tic);
+#define MICROS DWT->CYCCNT / (SystemCoreClock / 1000000U); 
 
 #define SEG_A   0b00000001
 #define SEG_B   0b00000010
