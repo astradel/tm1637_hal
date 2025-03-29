@@ -15,7 +15,6 @@ static void __setGPIODIOInput(void);
 static void __setGPIODIOOutput(void);
 static void __setGPIOClkInput(void);
 static void __setGPIOClkOutput(void);
-static void __DelayMicroseconds(uint32_t us);
 
 static uint8_t __m_brightness;
 static GPIO_InitTypeDef m_gpioStruct;
